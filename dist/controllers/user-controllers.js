@@ -25,7 +25,7 @@ export const userSignup = async (req, res, next) => {
         // Clear previous cookie
         res.clearCookie(COOKIE_NAME, {
             path: "/",
-            domain: process.env.DOMAIN,
+            // domain: "gen-chat-bot.netlify.app",
             httpOnly: true,
             signed: true,
         });
@@ -36,7 +36,7 @@ export const userSignup = async (req, res, next) => {
         // Send cookie with token to frontend
         res.cookie(COOKIE_NAME, token, {
             path: "/",
-            domain: process.env.DOMAIN,
+            // domain: "gen-chat-bot.netlify.app",
             expires,
             httpOnly: true,
             signed: true,
@@ -64,9 +64,9 @@ export const userLogin = async (req, res, next) => {
         // Clear previous cookie
         res.clearCookie(COOKIE_NAME, {
             path: "/",
-            domain: process.env.DOMAIN,
             httpOnly: true,
             signed: true,
+            sameSite: false
         });
         const token = createToken(user._id.toString(), user.email, "7d");
         // Create a time when the cookie should expire (7 days, same as token)
@@ -75,10 +75,11 @@ export const userLogin = async (req, res, next) => {
         // Send cookie with token to frontend
         res.cookie(COOKIE_NAME, token, {
             path: "/",
-            domain: process.env.DOMAIN,
             expires,
             httpOnly: true,
             signed: true,
+            sameSite: 'none', // required for cross-site cookies
+            secure: true, // ensures cookie is sent over HTTPS
         });
         return res
             .status(200)
@@ -121,7 +122,7 @@ export const userLogout = async (req, res, next) => {
         // Clear previous cookie
         res.clearCookie(COOKIE_NAME, {
             path: "/",
-            domain: process.env.DOMAIN,
+            // domain: "gen-chat-bot.netlify.app",
             httpOnly: true,
             signed: true,
         });

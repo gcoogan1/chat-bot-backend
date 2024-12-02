@@ -7,7 +7,7 @@ import cors from 'cors';
 config();
 const app = express();
 // middlewares
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: ["http://localhost:5173", "https://gen-chat-bot.netlify.app"], credentials: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan("dev")); // remove in production

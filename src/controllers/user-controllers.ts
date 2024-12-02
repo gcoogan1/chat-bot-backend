@@ -39,7 +39,7 @@ export const userSignup = async (
     // Clear previous cookie
     res.clearCookie(COOKIE_NAME, {
       path: "/",
-      domain: process.env.DOMAIN,
+      // domain: "gen-chat-bot.netlify.app",
       httpOnly: true,
       signed: true,
     });
@@ -53,7 +53,7 @@ export const userSignup = async (
     // Send cookie with token to frontend
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: process.env.DOMAIN,
+      // domain: "gen-chat-bot.netlify.app",
       expires,
       httpOnly: true,
       signed: true,
@@ -90,9 +90,9 @@ export const userLogin = async (
     // Clear previous cookie
     res.clearCookie(COOKIE_NAME, {
       path: "/",
-      domain: process.env.DOMAIN,
       httpOnly: true,
       signed: true,
+      sameSite: false
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
@@ -104,10 +104,11 @@ export const userLogin = async (
     // Send cookie with token to frontend
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: process.env.DOMAIN,
       expires,
       httpOnly: true,
       signed: true,
+      sameSite: 'none', // required for cross-site cookies
+      secure: true, // ensures cookie is sent over HTTPS
     });
 
     return res
@@ -165,7 +166,7 @@ export const userLogout = async (
     // Clear previous cookie
     res.clearCookie(COOKIE_NAME, {
       path: "/",
-      domain: process.env.DOMAIN,
+      // domain: "gen-chat-bot.netlify.app",
       httpOnly: true,
       signed: true,
     });
